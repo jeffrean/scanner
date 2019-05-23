@@ -7,5 +7,5 @@ def laser_threshold_image(frame):
 	thresh = cv2.threshold(blurred, 210, 255, cv2.THRESH_BINARY)[1]
 	return thresh
 
-def calculate_depth()
+def calculate_depth():
 	pass
