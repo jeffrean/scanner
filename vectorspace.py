@@ -1,9 +1,9 @@
 import numpy as np
-from math import radians
+from math import radians, cos, sin
 
 #units cm, radians
 LASER_ANGLE = radians(30.0)
-ORIGIN_DEPTH = 20.0
+ORIGIN_DEPTH = 16.5
 FOCAL_LENGTH = (640.0 * 129.54) / 172.72
 FOV = radians(70.0)
 
@@ -76,13 +76,18 @@ class PointCloud:
 def actual_depths(laser_centers):
 	return np.full(laser_centers.shape, ORIGIN_DEPTH)
 
-def calculate_points(laser_centers):
+def calculate_points(laser_centers, rotation_angle):
 	'''
 	TODO: implement angle of platform shifting
 	'''
 	depths = actual_depths(laser_centers)
 	x = (laser_centers * depths) / FOCAL_LENGTH
 	y = x / np.tan(LASER_ANGLE)
+
+	rotation_mat = np.array([[cos(-rotation_angle), -sin(-rotation_angle)],
+		[sin(-rotation_angle), cos(-rotation_angle)]])
+
+	xy = np.matmul(np.column_stack((x, y)), rotation_mat)
 
 	z = np.zeros(laser_centers.shape)
 	start_index = 0
@@ -99,6 +104,6 @@ def calculate_points(laser_centers):
 		raise Exception('No laser points detected')
 
 	#points = np.column_stack((x[start_index:], y[start_index:], z))
-	points = np.column_stack((x, y, z))
+	points = np.column_stack((xy, z))
 	return points
 
