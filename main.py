@@ -24,7 +24,7 @@ while True:
 		#break
 	if cv2.waitKey(1) & 0xFF == ord('s'):
 		for step in range(NUM_STEPS):
-			print step
+			print(step)
 			thresh = scanner.laser_threshold_image(frame)
 			print('calculating laser centers')
 			laser_centers = scanner.laser_centers_of_mass(thresh)
