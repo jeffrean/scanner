@@ -67,6 +67,8 @@ def laser_centers_of_mass(frame):
 
 		if count != 0:
 			laser_centers[i] //= count
+			if laser_centers[i] < (len(frame[0]) / 2):
+				laser_centers[i] = 0
 		else:
 			empty_flag = True
 

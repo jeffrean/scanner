@@ -10,7 +10,7 @@ video = cv2.VideoCapture(0)
 
 #create point cloud
 ret, frame = video.read()
-pointcloud = vectorspace.PointCloud((NUM_STEPS, frame.shape[0]))
+pointcloud = vectorspace.PointCloud((NUM_STEPS, frame.shape[0], 3))
 
 #for step in range(0,NUM_STEPS):
 step = 0
