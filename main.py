@@ -23,6 +23,7 @@ while True:
 	#if cv2.waitKey(1) & 0xFF == ord('q'):
 		#break
 	if cv2.waitKey(1) & 0xFF == ord('s'):
+		print step
 		thresh = scanner.laser_threshold_image(frame)
 		print('calculating laser centers')
 		laser_centers = scanner.laser_centers_of_mass(thresh)
