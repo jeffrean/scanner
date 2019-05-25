@@ -61,13 +61,15 @@ class PointCloud:
 			print(smaller_bound)
 
 			for j in range(0, len(self.points[smaller_index]) - 1 - smaller_bound, 2):
-				objfile.write(f'f {objmap[smaller_index][smaller_bound + j]} {objmap[larger_index][larger_bound + j]} \
-{objmap[smaller_index][smaller_bound + j + 1]} {objmap[larger_index][larger_bound + j + 1]}\n')
+				objfile.write('f {objmap[smaller_index][smaller_bound + j]} {objmap[larger_index][larger_bound + j]} \
+{objmap[smaller_index][smaller_bound + j + 1]} {objmap[larger_index][larger_bound + j + 1]}\n'.format(objmap=objmap, 
+					smaller_index=smaller_index, smaller_bound=smaller_bound, larger_index=larger_index, larger_bound=larger_bound))
 
 			if len(self.points[larger_index]) - (larger_bound + len(self.points[smaller_index]) - 1 - smaller_bound) >= 3:
-				final_polygon = f'f {objmap[smaller_index][len(self.points[smaller_index]) - 1]}'
+				final_polygon = 'f {objmap[smaller_index][len(self.points[smaller_index]) - 1]}'.format(objmap=objmap, 
+					smaller_index=smaller_index, smaller_bound=smaller_bound, larger_index=larger_index, larger_bound=larger_bound)
 				for j in range(larger_bound + len(self.points[smaller_index]) - 1 - smaller_bound, len(self.points[larger_index])):
-					final_polygon += f' {objmap[larger_index][j]}'
+					final_polygon += ' {objmap[larger_index][j]}'.format(objmap=objmap, larger_index=larger_index)
 
 				objfile.write(final_polygon + '\n')
 
