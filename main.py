@@ -17,7 +17,8 @@ step = 0
 while True:
 	ret, frame = video.read()
 	cv2.imshow('Frame', frame)
-	#cv2.imshow('Threshold', thresh)
+	thresh = scanner.laser_threshold_image(frame)
+	cv2.imshow('Threshold', thresh)
 
 	#if cv2.waitKey(1) & 0xFF == ord('q'):
 		#break
