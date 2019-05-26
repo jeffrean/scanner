@@ -62,7 +62,7 @@ class PointCloud:
 
 			for j in range(0, len(self.points[smaller_index]) - 1 - smaller_bound, 2):
 				objfile.write('f ' + str(objmap[smaller_index][smaller_bound + j]) + ' ' + str(objmap[larger_index][larger_bound + j]) + ' ' \
-str(objmap[smaller_index][smaller_bound + j + 1]) + ' ' + str(objmap[larger_index][larger_bound + j + 1]) + '\n')
++ str(objmap[smaller_index][smaller_bound + j + 1]) + ' ' + str(objmap[larger_index][larger_bound + j + 1]) + '\n')
 
 			if len(self.points[larger_index]) - (larger_bound + len(self.points[smaller_index]) - 1 - smaller_bound) >= 3:
 				final_polygon = 'f ' + str(objmap[smaller_index][len(self.points[smaller_index]) - 1])
