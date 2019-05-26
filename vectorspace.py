@@ -57,9 +57,6 @@ class PointCloud:
 			larger_bound = left_lower_bound if left_lower_bound <= right_lower_bound else right_lower_bound
 			smaller_bound = left_lower_bound if left_lower_bound > right_lower_bound else right_lower_bound
 
-			print(larger_bound)
-			print(smaller_bound)
-
 			for j in range(0, len(self.points[smaller_index]) - 1 - smaller_bound, 2):
 				objfile.write('f ' + str(objmap[smaller_index][smaller_bound + j]) + ' ' + str(objmap[larger_index][larger_bound + j]) + ' ' \
 + str(objmap[smaller_index][smaller_bound + j + 1]) + ' ' + str(objmap[larger_index][larger_bound + j + 1]) + '\n')

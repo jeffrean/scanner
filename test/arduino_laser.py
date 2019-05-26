@@ -2,27 +2,26 @@ import cv2
 import numpy as np
 
 def laser_threshold_image(frame):
-	'''gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	blurred = cv2.GaussianBlur(gray, (11, 11), 0)
-	thresh = cv2.threshold(blurred, 210, 255, cv2.THRESH_BINARY)[1]'''
-	#blurred = cv2.blur(frame,(5,5))
+	'''
+	This funciton uses upper color #FFA2C7 and lower color #E64A79
+	'''
 
 	#color
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	dark_red = cv2.cvtColor(np.uint8([[[187,47,85]]]),cv2.COLOR_RGB2HSV)[0][0]
-	lower_red = np.uint8([[[dark_red[0] - 50, dark_red[1] - 50, dark_red[2] - 50]]])
-	upper_red = np.uint8([[[dark_red[0] + 90, dark_red[1] + 90, dark_red[2] + 90]]])
+	lower_red = np.uint8([[[dark_red[0] - 70, dark_red[1] - 70, dark_red[2] - 70]]])
+	upper_red = np.uint8([[[dark_red[0] + 60, dark_red[1] + 60, dark_red[2] + 60]]])
 	mask = cv2.inRange(hsv, lower_red, upper_red)
 
 	#brightness
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	blurred = cv2.GaussianBlur(gray, (9, 9), 0)
-	thresh = cv2.threshold(blurred, 170, 255, cv2.THRESH_BINARY)[1]
+	thresh = cv2.threshold(blurred, 210, 255, cv2.THRESH_BINARY)[1]
 
 	#edge
 	edge = cv2.Canny(cv2.split(hsv)[0], 50, 100)
-	mask_thresh = cv2.bitwise_or(mask, thresh)
-	return cv2.bitwise_and(mask_thresh, edge)
+	mask_thresh = cv2.bitwise_and(mask, 255 - thresh)
+	return mask_thresh#cv2.bitwise_and(mask_thresh, edge)
 
 def linear_interpolate(laser_centers):
 	empty_flag = False
@@ -68,6 +67,8 @@ def laser_centers_of_mass(frame):
 
 		if count != 0:
 			laser_centers[i] //= count
+			if laser_centers[i] < (len(frame[0]) / 2):
+				laser_centers[i] = 0
 		else:
 			empty_flag = True
 
