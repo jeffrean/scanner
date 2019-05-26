@@ -3,7 +3,7 @@ from math import radians, cos, sin
 
 #units cm, radians
 LASER_ANGLE = radians(30.0)
-ORIGIN_DEPTH = 16.5
+ORIGIN_DEPTH = 14.0
 FOCAL_LENGTH = (640.0 * 129.54) / 172.72
 FOV = radians(70.0)
 
@@ -63,7 +63,7 @@ class PointCloud:
 			for j in range(0, len(self.points[smaller_index]) - 1 - smaller_bound, 2):
 				objfile.write('f {objmap[smaller_index][smaller_bound + j]} {objmap[larger_index][larger_bound + j]} \
 {objmap[smaller_index][smaller_bound + j + 1]} {objmap[larger_index][larger_bound + j + 1]}\n'.format(objmap=objmap, 
-					smaller_index=smaller_index, smaller_bound=smaller_bound, larger_index=larger_index, larger_bound=larger_bound))
+					smaller_index=smaller_index, smaller_bound=smaller_bound, larger_index=larger_index, larger_bound=larger_bound, j=j))
 
 			if len(self.points[larger_index]) - (larger_bound + len(self.points[smaller_index]) - 1 - smaller_bound) >= 3:
 				final_polygon = 'f {objmap[smaller_index][len(self.points[smaller_index]) - 1]}'.format(objmap=objmap, 
@@ -78,12 +78,12 @@ class PointCloud:
 def actual_depths(laser_centers):
 	return np.full(laser_centers.shape, ORIGIN_DEPTH)
 
-def calculate_points(laser_centers, rotation_angle):
+def calculate_points(laser_centers, frame_width, rotation_angle):
 	'''
 	TODO: implement angle of platform shifting
 	'''
 	depths = actual_depths(laser_centers)
-	x = (laser_centers * depths) / FOCAL_LENGTH
+	x = ((laser_centers - frame_width) * depths) / FOCAL_LENGTH
 	y = x / np.tan(LASER_ANGLE)
 
 	rotation_mat = np.array([[cos(-rotation_angle), -sin(-rotation_angle)],

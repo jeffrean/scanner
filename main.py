@@ -29,14 +29,12 @@ while True:
 			print('calculating laser centers')
 			laser_centers = scanner.laser_centers_of_mass(thresh)
 			print('calculating points')
-			points = vectorspace.calculate_points(laser_centers, radians(step * 4))
+			points = vectorspace.calculate_points(laser_centers, frame.shape[0], radians(step * 4))
 			print('adding points')
 			pointcloud.add_points(points)
 			print('done')
 			step += 1
 		break
-
-
 
 pointcloud.write_to_csv()
 pointcloud.write_to_obj()
